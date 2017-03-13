@@ -87,12 +87,12 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     "*** YOUR CODE HERE ***"
-    acts, prev, visited = [], {}, {}
+    acts, prev, visitedState = [], {}, set()
     st = util.Stack()
     st.push(problem.getStartState())
     while not st.isEmpty():
         u = st.pop()
-        visited[u] = True
+        visitedState.add(u)
         if problem.isGoalState(u):
             while problem.getStartState() != u:
                 v = prev[u]
@@ -102,7 +102,7 @@ def depthFirstSearch(problem):
         
         li = problem.getSuccessors(u)
         for item in li:
-            if not (item[0] in visited):
+            if not (item[0] in visitedState):
                 prev[item[0]] = (u, item[1])
                 st.push(item[0])
     acts.reverse()
