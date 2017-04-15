@@ -370,12 +370,19 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
-    d = 0
-    (x, y) = state[0]
+    if (problem.isGoalState(state)):
+        return 0
+    d = 999999
     for i in range(1, 5):
         if (not state[i]):
-            (xx, yy) = corners[i - 1]
-            d = max(d, abs(x - xx) + abs(y - yy))
+            newState = []
+            newState.append(corners[i - 1])
+            for j in range(1, 5):
+                newState.append(state[j])
+            newState[i] = True
+            newState = tuple(newState)
+            #print newState
+            d = min(d, util.manhattanDistance(state[0], corners[i - 1]) + cornersHeuristic(newState, problem))
     return d
     
 
